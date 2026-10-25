@@ -1,5 +1,10 @@
 node_modules/
+.local/
+dist/
+*.pem
+*.crx
 more-slots.zip
+more-slots-fixed.zip
 .env
 .env.*
 !.env.example
