@@ -70,14 +70,21 @@
       <div class="setting-row"><label for="show-bookmarks">新标签页内书签栏<small>只在此页面显示；首次使用需授权读取书签</small></label><input id="show-bookmarks" name="showBookmarks" type="checkbox"></div>
       <div class="setting-row"><label for="theme">主题</label><select id="theme" name="theme"><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select></div>
       <div class="setting-row"><label for="live-suggestions">Google 实时联想<small>输入内容会发送至 Google；关闭后仅显示本机建议</small></label><input id="live-suggestions" name="liveSuggestions" type="checkbox"></div>
+      <h3>Chrome 同步</h3>
+      <p class="settings-note">两台 Chrome 需登录同一账号并开启扩展数据同步。同步快捷方式、排序和设置；图标、搜索历史与书签授权留在本机。</p>
+      <p id="sync-status" class="sync-status" role="status">正在读取同步状态…</p>
+      <p id="sync-usage" class="sync-meta"></p><p id="sync-time" class="sync-meta"></p>
+      <div class="sync-actions"><button type="button" id="sync-toggle" class="secondary">启用同步</button><button type="button" id="sync-now" class="secondary" disabled>立即同步</button><button type="button" id="open-chrome-sync" class="text-button">Chrome 同步设置</button></div>
       <h3>数据备份</h3>
-      <p class="settings-note">快捷方式仅保存在本机，不会自动读取原生新标签页。可备份后在另一台电脑导入。</p>
+      <p class="settings-note">本机始终保留一份配置。同步前自动保存快照，也可手动导出到其他设备。</p>
       <div class="backup-actions"><button type="button" id="export" class="secondary">导出备份</button><button type="button" id="import" class="secondary">导入备份</button><input id="import-file" type="file" accept="application/json,.json" hidden></div>
+      <button type="button" id="sync-backup" class="text-button" hidden>下载启用同步前的备份</button>
       <p id="settings-error" class="error" role="alert"></p>
       <div class="settings-footer"><span id="shortcut-count"></span><button type="submit" class="primary">保存设置</button></div>
     </form>
   </dialog>
   <dialog id="import-dialog" aria-labelledby="import-heading"><h2 id="import-heading">导入备份</h2><p id="import-description"></p><p class="settings-note">导入会替换当前快捷方式与设置。建议先导出当前备份。</p><div class="dialog-actions"><button class="secondary" data-close="import-dialog">取消</button><button class="primary" id="confirm-import">替换并导入</button></div></dialog>
+  <dialog id="sync-choice-dialog" aria-labelledby="sync-choice-heading"><h2 id="sync-choice-heading">首次连接 Chrome 同步</h2><p id="sync-choice-count" class="settings-note"></p><p class="settings-note">合并会保留两边独有的网站；同网址保留 Chrome 中的条目，采用其排序和设置。本机原配置会自动留存一份备份。</p><div class="sync-choices"><button type="button" class="primary" data-sync-choice="merge">合并两份配置</button><button type="button" class="secondary" data-sync-choice="cloud">使用 Chrome 中的配置</button><button type="button" class="secondary danger" data-sync-choice="local">用本机替换 Chrome 中的配置</button><button type="button" class="text-button" data-close="sync-choice-dialog">暂不启用</button></div></dialog>
   <div id="shortcut-menu" class="shortcut-menu" role="menu" aria-label="快捷方式操作" hidden><button role="menuitem" data-action="edit">编辑快捷方式</button><button role="menuitem" data-action="left">向前移动</button><button role="menuitem" data-action="right">向后移动</button><button role="menuitem" data-action="delete" class="danger">移除</button></div>
   <div id="toast" class="toast" role="status" hidden><span></span><button id="undo" hidden>撤销</button></div>
 </body>

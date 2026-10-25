@@ -1,15 +1,17 @@
 {
   "manifest_version": 3,
   "name": "More Slots · 更多快捷方式",
-  "version": "1.3.1",
-  "description": "熟悉的新标签页，自由设置快捷方式数量与列数，支持 Google 搜索联想和本机备份。",
+  "version": "1.4.0",
+  "description": "熟悉的新标签页，自由设置快捷方式数量与列数，支持 Google 搜索联想、本机备份与 Chrome 同步。",
   "permissions": [
     "storage",
-    "favicon"
+    "favicon",
+    "alarms"
   ],
   "optional_permissions": [
     "bookmarks"
   ],
+  "background": { "service_worker": "sync-worker.js", "type": "module" },
   "host_permissions": [
     "https://suggestqueries.google.com/*"
   ],

@@ -3,6 +3,7 @@ import { installSearch } from './search.js';
 import { mountFavicon } from './favicon.js';
 import { installReordering, reorderVisible } from './reorder.js';
 import { installBookmarks } from './bookmarks.js';
+import { installSyncUI, syncRequest } from './sync-ui.js';
 
 const $ = id => document.getElementById(id);
 const storageKey = 'more-slots-v1';
@@ -19,17 +20,18 @@ let writeQueue = Promise.resolve();
 let searchController;
 let reorderController;
 let bookmarksController;
+let syncController;
 const colorScheme = matchMedia('(prefers-color-scheme: dark)');
 
 async function read() {
-  if (extensionMode) return (await chrome.storage.local.get(storageKey))[storageKey];
+  if (extensionMode) return (await syncRequest('get')).state;
   const value = localStorage.getItem(storageKey);
   return value ? JSON.parse(value) : null;
 }
-function save() {
+function save(base) {
   const snapshot = structuredClone(state);
   const operation = writeQueue.then(async () => {
-    if (extensionMode) await chrome.storage.local.set({ [storageKey]: snapshot });
+    if (extensionMode) state = (await syncRequest('save', { state: snapshot, base: base ?? snapshot })).state;
     else localStorage.setItem(storageKey, JSON.stringify(snapshot));
   });
   writeQueue = operation.catch(() => {});
@@ -38,7 +40,7 @@ function save() {
 async function commit(next) {
   const previous = state;
   state = next;
-  try { await save(); render(); return true; }
+  try { await save(previous); render(); return true; }
   catch { state = previous; render(); toast('保存失败，请检查可用存储空间后重试。'); return false; }
 }
 function toast(message, action) {
@@ -220,6 +222,7 @@ $('customize').addEventListener('click', () => {
     else control.value = value;
   }
   $('settings-error').textContent = '';
+  syncController?.refresh();
   $('settings-dialog').showModal();
 });
 $('settings-form').addEventListener('submit', async event => {
@@ -283,6 +286,15 @@ try {
 render();
 searchController = installSearch({ getState: () => state, extensionMode });
 bookmarksController = installBookmarks({ getState: () => state, extensionMode });
+syncController = installSyncUI({ extensionMode, notify: toast, onResult: result => {
+  state = validateState(result.state); render();
+  const form = $('settings-form');
+  for (const [key, value] of Object.entries(state.settings)) {
+    const control = form.elements.namedItem(key);
+    if (control.type === 'checkbox') control.checked = value;
+    else control.value = value;
+  }
+} });
 reorderController = installReordering($('shortcuts'), {
   onStart: () => closeMenu(),
   onReorder: async orderedIds => {
