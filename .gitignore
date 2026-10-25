@@ -3,8 +3,7 @@ node_modules/
 dist/
 *.pem
 *.crx
-more-slots.zip
-more-slots-fixed.zip
+more-slots*.zip
 .env
 .env.*
 !.env.example

@@ -25,7 +25,7 @@
 
 ## 功能
 
-如需在不同目录、不同设备获得相同的扩展 ID，使用 `npm run build:fixed` 生成的 `dist/extension`，详见[免费固定 ID 与旧配置迁移](docs/fixed-id.md)。原 `extension` 目录保留旧的加载方式，首次切换前请先导出配置。
+`extension/manifest.json` 已内置固定公钥，**直接加载 `extension` 文件夹**即可得到固定 ID `fhohijfjoehgofnnnghbgiglmaagemni`，无需构建或使用 ZIP。安装包只保留 `more-slots.zip`，内容与 `extension` 文件夹一致。首次从旧 ID 切换时先导出配置，再导入一次；详见[固定 ID 说明](docs/fixed-id.md)。
 
 - 新标签页顶部显示真实 Chrome 书签栏。读取书签及文件夹，点击或悬停展开菜单，支持嵌套目录和键盘操作；空间不足时收进「更多书签」，「所有书签」可查看其他目录及打开 Chrome 书签管理器。
 - 书签变化会自动更新。现代 Chrome 的账号与本机书签目录按元数据识别，重名目录标注来源；旧版 Chrome 使用兼容路径。
