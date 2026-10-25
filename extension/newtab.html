@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>新标签页 · More Slots</title>
+  <link rel="icon" href="assets/icon-48.png">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <nav id="bookmark-bar" class="bookmark-bar" aria-label="书签栏">
+    <span id="bookmark-hint" class="bookmark-hint">只在新标签页显示你的 Chrome 书签</span>
+    <button id="enable-bookmarks" class="bookmark-enable" type="button">启用书签栏</button>
+    <div id="bookmark-items" class="bookmark-items"></div>
+    <button id="bookmark-overflow" class="bookmark-overflow" type="button" aria-label="更多书签" aria-haspopup="menu" aria-expanded="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 6 6 6-6 6m7-12 6 6-6 6"/></svg></button>
+    <button id="all-bookmarks" class="bookmark-item all-bookmarks" type="button" aria-haspopup="menu" aria-expanded="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6a2 2 0 0 1 2-2h5l2 3h7a2 2 0 0 1 2 2v10H3z"/></svg><span>所有书签</span></button>
+  </nav>
+  <div id="bookmark-menus"></div>
+  <header class="topbar">
+    <div class="apps-wrap">
+      <button id="apps-toggle" class="icon-button" aria-label="Google 应用" aria-expanded="false" aria-controls="apps-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h3v3H4zm6.5 0h3v3h-3zM17 4h3v3h-3zM4 10.5h3v3H4zm6.5 0h3v3h-3zm6.5 0h3v3h-3zM4 17h3v3H4zm6.5 0h3v3h-3zm6.5 0h3v3h-3z" fill="currentColor" stroke="none"/></svg></button>
+      <nav id="apps-panel" class="apps-panel" aria-label="Google 应用" hidden>
+        <a href="https://www.google.com/">搜索</a><a href="https://mail.google.com/">Gmail</a><a href="https://drive.google.com/">云端硬盘</a><a href="https://calendar.google.com/">日历</a><a href="https://maps.google.com/">地图</a><a href="https://photos.google.com/">相册</a><a href="https://docs.google.com/">文档</a><a href="https://www.youtube.com/">YouTube</a><a href="https://gemini.google.com/">Gemini</a>
+      </nav>
+    </div>
+    <a class="account icon-button" href="https://myaccount.google.com/" aria-label="Google 账号"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></a>
+  </header>
+  <main>
+    <img class="google-logo" src="assets/google-logo.png" width="272" height="92" alt="Google">
+    <div id="search-shell" class="search-shell">
+    <form id="search-form" class="search-box" role="search" action="https://www.google.com/search">
+      <button type="submit" hidden tabindex="-1" aria-hidden="true">搜索</button>
+      <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
+      <input id="search" name="q" role="combobox" aria-label="搜索 Google 或输入网址" placeholder="搜索 Google 或输入网址" autocomplete="off" aria-autocomplete="list" aria-controls="search-options" aria-expanded="false" spellcheck="false">
+      <a class="icon-button" href="https://www.google.com/" aria-label="前往 Google 使用语音搜索" title="前往 Google 使用语音搜索"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3" fill="currentColor" stroke="none"/><path d="M6 10v1a6 6 0 0 0 12 0v-1M12 17v4M9 21h6"/></svg></a>
+      <a class="icon-button" href="https://lens.google/" aria-label="Google Lens 图片搜索" title="Google Lens 图片搜索"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H5a2 2 0 0 0-2 2v3M16 4h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3"/><circle cx="12" cy="12" r="4"/><circle cx="19" cy="20" r="1" fill="currentColor"/></svg></a>
+      <button type="submit" name="udm" value="50" class="ai-mode" title="用 Google AI Mode 提问；留空可直接打开" aria-label="打开 Google AI Mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m16 2 1.5 4.5L22 8l-4.5 1.5L16 14l-1.5-4.5L10 8l4.5-1.5zM14 18l5 5"/><path d="M10 4a8 8 0 1 0 4 14"/></svg><span>AI Mode</span></button>
+    </form>
+    <div id="search-dropdown" class="search-dropdown" hidden>
+      <div id="search-options" role="listbox" aria-label="搜索建议"></div>
+      <div class="search-footer"><span id="search-status" role="status" aria-live="polite"></span><button id="clear-search-history" type="button" hidden>清除最近搜索</button></div>
+    </div>
+    </div>
+    <section class="shortcuts-section" aria-label="快捷方式">
+      <div id="shortcuts" class="shortcuts"></div>
+      <button id="show-more" class="text-button" hidden>显示更多</button>
+      <p id="grid-hint" class="grid-hint" hidden></p>
+    </section>
+  </main>
+  <button id="customize" class="customize"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16 12-12 4 4L8 20H4zM13 7l4 4"/></svg><span>自定义 More Slots</span></button>
+  <dialog id="shortcut-dialog" aria-labelledby="shortcut-heading">
+    <form id="shortcut-form">
+      <h2 id="shortcut-heading">添加快捷方式</h2>
+      <label for="shortcut-name">名称</label><input id="shortcut-name" required maxlength="80" autocomplete="off">
+      <label for="shortcut-url">网址</label><input id="shortcut-url" required placeholder="example.com" maxlength="2048" autocomplete="off" spellcheck="false">
+      <p id="shortcut-error" class="error" role="alert"></p>
+      <div class="dialog-actions"><button type="button" data-close="shortcut-dialog" class="secondary">取消</button><button class="primary" type="submit">完成</button></div>
+    </form>
+  </dialog>
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-heading">
+    <form id="settings-form">
+      <div class="dialog-heading"><div><h2 id="settings-heading">自定义新标签页</h2><p>熟悉的样子，更多常用网站。</p></div><button type="button" data-close="settings-dialog" class="icon-button" aria-label="关闭设置">×</button></div>
+      <h3>快捷方式</h3>
+      <div class="setting-row"><label for="visible-count">默认显示数量<small>填 0 显示全部；超出部分可展开</small></label><input id="visible-count" name="visibleCount" type="number" min="0" max="1000" required></div>
+      <div class="setting-row"><label for="columns">每行列数<small>窄窗口会自动适配</small></label><input id="columns" name="columns" type="number" min="3" max="12" required></div>
+      <div class="setting-row"><label for="new-tab">在新标签页打开网站</label><input id="new-tab" name="newTab" type="checkbox"></div>
+      <h3>外观</h3>
+      <div class="setting-row"><label for="show-bookmarks">新标签页内书签栏<small>只在此页面显示；首次使用需授权读取书签</small></label><input id="show-bookmarks" name="showBookmarks" type="checkbox"></div>
+      <div class="setting-row"><label for="theme">主题</label><select id="theme" name="theme"><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select></div>
+      <div class="setting-row"><label for="live-suggestions">Google 实时联想<small>输入内容会发送至 Google；关闭后仅显示本机建议</small></label><input id="live-suggestions" name="liveSuggestions" type="checkbox"></div>
+      <h3>数据备份</h3>
+      <p class="settings-note">快捷方式仅保存在本机，不会自动读取原生新标签页。可备份后在另一台电脑导入。</p>
+      <div class="backup-actions"><button type="button" id="export" class="secondary">导出备份</button><button type="button" id="import" class="secondary">导入备份</button><input id="import-file" type="file" accept="application/json,.json" hidden></div>
+      <p id="settings-error" class="error" role="alert"></p>
+      <div class="settings-footer"><span id="shortcut-count"></span><button type="submit" class="primary">保存设置</button></div>
+    </form>
+  </dialog>
+  <dialog id="import-dialog" aria-labelledby="import-heading"><h2 id="import-heading">导入备份</h2><p id="import-description"></p><p class="settings-note">导入会替换当前快捷方式与设置。建议先导出当前备份。</p><div class="dialog-actions"><button class="secondary" data-close="import-dialog">取消</button><button class="primary" id="confirm-import">替换并导入</button></div></dialog>
+  <div id="shortcut-menu" class="shortcut-menu" role="menu" aria-label="快捷方式操作" hidden><button role="menuitem" data-action="edit">编辑快捷方式</button><button role="menuitem" data-action="left">向前移动</button><button role="menuitem" data-action="right">向后移动</button><button role="menuitem" data-action="delete" class="danger">移除</button></div>
+  <div id="toast" class="toast" role="status" hidden><span></span><button id="undo" hidden>撤销</button></div>
+</body>
+</html>
